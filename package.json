@@ -1,7 +1,8 @@
 {
   "name": "metablog",
   "version": "1.0.0",
-  "description": "",
+  "description": "lala", 
+  "repository": "git@github.com:glaserbw/metablog.git", 
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-ejs-layouts": "^2.5.0",
