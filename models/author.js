@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     image: DataTypes.STRING
   }, {});
   author.associate = function(models) {
-    models.author.hasMany(models.article); //one author has many articles
+    models.author.hasMany(models.article);
     models.author.hasMany(models.comment);  // one author has many comments
   };
   return author;
