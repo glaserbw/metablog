@@ -7,7 +7,7 @@ router.get('/', function(req, res){
 		res.render('articles/index', {articles: allArticles});
 	}).catch(function(err){
 		console.log(err);
-		res.send('oops');
+		res.error('error');
 	});
 });
 
@@ -16,7 +16,7 @@ router.get('/new', function(req, res){
 		res.render('articles/new', {authors: allAuthors});
 	}).catch(function(err){
 		console.log(err);
-		res.send('oops');
+		res.error('error');
 	});
 });
 
@@ -28,18 +28,18 @@ router.get('/:id', function(req, res){
 		res.render('articles/show', {article: foundArticle});
 	}).catch(function(err){
 		console.log(err);
-		res.send('oops');
+		res.error('error');
 	});
 });
 
 router.post('/', function(req, res){
-	if(req.body.authorId <=0){
+	if(req.body.authorId > 0){
 	console.log(req.body);
 	db.article.create(req.body).then(function(createdArticle){
 		res.redirect('/articles/' + createdArticle.id);
 	}).catch(function(err){
 		console.log(err);
-		res.send('noooo');
+		res.error('error');
 	});
 	}
 	else {

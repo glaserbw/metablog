@@ -7,7 +7,7 @@ router.get('/', function(req, res){
 		res.render('authors/index', {authors: allAuthors})
 	}).catch(function(err){
 		console.log(err);
-		res.send('bad things');
+		res.error('error');
 	})
 })
 
@@ -23,7 +23,7 @@ router.get('/:id', function(req, res){
 		res.render('authors/show', {author: foundAuthor}); //we need this object to show.ejs for authors
 	}).catch(function(err){
 		console.log(err);
-		res.send('can not find this');
+		res.error('error');
 	})
 });
 
@@ -33,7 +33,7 @@ router.post('/', function(req, res){
 		res.redirect('/author/' + createdAuthor.id); 
 	}).catch(function(err){
 		console.log(err);
-		res.send('derp');
+		res.error('error');
 	});
 })
 
