@@ -14,6 +14,7 @@ app.use(ejsLayouts);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use('/articles', require('./controllers/articles'));
 app.use('/authors', require('./controllers/authors'));
+app.use(express.static(__dirname + '/public'));
 
 
 //Define Routes 
