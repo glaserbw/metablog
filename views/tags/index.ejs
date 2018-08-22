@@ -2,8 +2,15 @@
 
 <% tags.forEach(function(t){%>
 	<div>
-		<a href="/tags/<%=t.id%>">
+		<a href="/tags/<%=t.id%>" style="font-size:20px">
 			<%= t.name%>
+		</a>
+		<a href="/tags/edit/<%= t.id%>" class="btn btn-sm btn-warning">
+			Edit
+		</a>
+		<a href="/tags/<%= t.id%>" class="btn btn-sm btn-danger delete-btn">
+			Delete
 		</a>
 	</div>
 <%});%>
+

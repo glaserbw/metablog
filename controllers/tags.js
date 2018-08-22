@@ -12,6 +12,15 @@ router.get('/', function(req, res){
 	})
 });
 
+router.get('/edit/:id', function(req, res){
+	db.tag.findById(req.params.id).then(function(foundTag){
+		res.render('tags/edit', { tag: foundTag });
+	}).catch(function(err){
+		console.log('error', err);
+		res.render('error'); 
+	})
+});
+
 router.get('/:id', function(req, res){
 	db.tag.findOne({
 		where: { id: req.params.id },
@@ -24,8 +33,36 @@ router.get('/:id', function(req, res){
 	})
 });
 
+router.put('/:id', function(req, res){
+	res.send(req.body);
+});
+
 router.delete('/:id', function(req, res){
-	res.send('DELETE!');
+	db.tag.findOne({
+		where: { id: req.params.id },
+		include: [db.article]
+	}).then(function(foundTag){
+		async.forEach(foundTag.articles, function(a, done){
+			// runs for each article 
+			// remove the association 
+			foundTag.removeArticle(a).then(function(){
+				done();
+			});
+		}, function(){
+			//runs when all functions are done 
+			// now that references from join table are deleted, then we can remove tag
+			db.tag.destroy({
+				where: { id: req.params.id }
+			}).then(function(){
+				res.send('successfully deleted')
+			}).catch(function(err){
+				res.status(500).send('OH NO!');
+			});
+		});
+	}).catch(function(err){
+		res.status(500).send('OH NO!');
+	});
+	// res.send('DELETE!');
 });
 
 
