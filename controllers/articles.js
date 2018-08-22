@@ -1,3 +1,4 @@
+var async = require('async');
 var express = require('express');
 var router = express.Router();
 var db = require('../models');
@@ -49,16 +50,31 @@ router.post('/', function(req, res){
 
 		if(tags.length > 0) {
 			//loop through the tags, create if needed, then add relationship to join table 
-
-			tags.forEach(function(t) {
+			async.forEach(tags, function(t, done){
+				//this code runs for each individaul tag we need to add
 				db.tag.findOrCreate({
 					where: {name: t.trim()}
 				}).spread(function(newTag, wasCreated){
-					createdArticle.addTag(newTag); 
+					createdArticle.addTag(newTag).then(function(){
+						done();
+					}); 
 				});
+	
+			}, function(){
+				//this code runs when everything is done
+				res.redirect('/articles/' + createdArticle.id);
 			});
 
-			res.redirect('/articles/' + createdArticle.id);
+			//THIS HAS TIMING ISSUES
+			// tags.forEach(function(t) {
+			// 	db.tag.findOrCreate({
+			// 		where: {name: t.trim()}
+			// 	}).spread(function(newTag, wasCreated){
+			// 		createdArticle.addTag(newTag); 
+			// 	});
+			// });
+
+			// res.redirect('/articles/' + createdArticle.id);
 		}
 		else{
 			res.redirect('/articles/' + createdArticle.id);
